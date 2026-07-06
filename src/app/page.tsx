@@ -1,65 +1,314 @@
 import Image from "next/image";
 
+const categories = [
+  {
+    name: "Hombre",
+    description: "Camisetas performance de ajuste atletico para entrenar.",
+    image: "/munin/shirt-blue.jpeg",
+  },
+  {
+    name: "Mujer",
+    description: "Conjuntos de alto contraste para gimnasio y rutina diaria.",
+    image: "/munin/women-red-front.jpeg",
+  },
+  {
+    name: "Performance",
+    description: "Tela fresca, costuras visibles y silueta de movimiento.",
+    image: "/munin/shirt-gray.jpeg",
+  },
+];
+
+const products = [
+  {
+    name: "Camiseta Azul Storm",
+    color: "Azul acero",
+    price: "$89.000",
+    image: "/munin/shirt-blue.jpeg",
+  },
+  {
+    name: "Camiseta Teal Pro",
+    color: "Verde profundo",
+    price: "$89.000",
+    image: "/munin/shirt-teal.jpeg",
+  },
+  {
+    name: "Camiseta Mint Flex",
+    color: "Menta claro",
+    price: "$89.000",
+    image: "/munin/shirt-mint.jpeg",
+  },
+  {
+    name: "Camiseta Rust Core",
+    color: "Terracota",
+    price: "$89.000",
+    image: "/munin/shirt-rust.jpeg",
+  },
+  {
+    name: "Camiseta Graphite",
+    color: "Gris grafito",
+    price: "$89.000",
+    image: "/munin/shirt-gray.jpeg",
+  },
+  {
+    name: "Set Red Limits",
+    color: "Rojo intenso",
+    price: "$149.000",
+    image: "/munin/women-red-front.jpeg",
+  },
+];
+
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <main className="min-h-screen bg-[#f4f1ec] text-[#111111]">
+      <header className="sticky top-0 z-30 border-b border-black/10 bg-[#f4f1ec]/95 backdrop-blur">
+        <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8">
+          <a href="#" className="flex items-center gap-3">
+            <span className="relative h-12 w-20 overflow-hidden rounded bg-white">
+              <Image
+                src="/munin/logo.jpeg"
+                alt="Logo MUNIN"
+                fill
+                sizes="80px"
+                className="object-contain p-1"
+                priority
+              />
+            </span>
+            <span className="text-xl font-black tracking-wide">MUNIN</span>
+          </a>
+
+          <div className="hidden items-center gap-8 text-sm font-bold uppercase md:flex">
+            <a href="#coleccion" className="transition hover:text-[#c7252f]">
+              Coleccion
+            </a>
+            <a href="#productos" className="transition hover:text-[#c7252f]">
+              Productos
+            </a>
+            <a href="#lookbook" className="transition hover:text-[#c7252f]">
+              Lookbook
+            </a>
+          </div>
+
+          <a
+            href="#productos"
+            className="flex h-11 items-center justify-center rounded bg-[#111111] px-5 text-sm font-black uppercase text-white transition hover:bg-[#c7252f]"
+          >
+            Comprar
+          </a>
+        </nav>
+      </header>
+
+      <section className="mx-auto grid min-h-[calc(100svh-5rem)] max-w-7xl grid-cols-1 gap-8 px-5 py-8 sm:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+        <div className="max-w-2xl">
+          <p className="mb-5 w-fit rounded bg-[#c7252f] px-3 py-2 text-xs font-black uppercase text-white">
+            Never back down
           </p>
+          <h1 className="text-5xl font-black leading-none sm:text-7xl lg:text-8xl">
+            Ropa deportiva con caracter propio.
+          </h1>
+          <p className="mt-6 max-w-xl text-lg leading-8 text-[#4b4b4b]">
+            MUNIN combina ajuste atletico, prendas limpias y una imagen fuerte
+            para entrenar sin perder estilo.
+          </p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <a
+              href="#productos"
+              className="flex h-12 items-center justify-center rounded bg-[#111111] px-6 text-sm font-black uppercase text-white transition hover:bg-[#c7252f]"
+            >
+              Ver productos
+            </a>
+            <a
+              href="#coleccion"
+              className="flex h-12 items-center justify-center rounded border border-black/20 px-6 text-sm font-black uppercase transition hover:border-[#c7252f] hover:text-[#c7252f]"
+            >
+              Explorar linea
+            </a>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+
+        <div className="grid gap-4 sm:grid-cols-[1fr_0.72fr]">
+          <div className="relative min-h-[520px] overflow-hidden rounded bg-[#111111]">
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+              src="/munin/women-red-front.jpeg"
+              alt="Conjunto rojo deportivo MUNIN"
+              fill
+              sizes="(min-width: 1024px) 45vw, 100vw"
+              className="object-cover"
+              priority
             />
-            Deploy Now
-          </a>
+            <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between rounded bg-white/90 p-4 text-sm font-black uppercase backdrop-blur">
+              <span>Red Limits</span>
+              <span>$149.000</span>
+            </div>
+          </div>
+
+          <div className="grid gap-4">
+            <div className="relative min-h-[252px] overflow-hidden rounded bg-white">
+              <Image
+                src="/munin/shirt-teal.jpeg"
+                alt="Camiseta verde MUNIN"
+                fill
+                sizes="(min-width: 1024px) 28vw, 100vw"
+                className="object-cover"
+                priority
+              />
+            </div>
+            <div className="flex min-h-[252px] flex-col justify-between rounded bg-[#111111] p-6 text-white">
+              <Image
+                src="/munin/logo.jpeg"
+                alt="Logo MUNIN"
+                width={180}
+                height={120}
+                className="w-36 rounded bg-white p-2"
+              />
+              <div>
+                <p className="text-sm font-black uppercase text-[#ff565f]">
+                  Nueva coleccion
+                </p>
+                <p className="mt-2 text-3xl font-black leading-none">
+                  Break your limits.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="coleccion"
+        className="border-y border-black/10 bg-white px-5 py-16 sm:px-8"
+      >
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+            <div>
+              <p className="text-sm font-black uppercase text-[#c7252f]">
+                Lineas principales
+              </p>
+              <h2 className="mt-2 text-3xl font-black sm:text-5xl">
+                Entrena por categoria
+              </h2>
+            </div>
+            <p className="max-w-md text-sm leading-6 text-[#5b5b5b]">
+              Una estructura sencilla para que la tienda se entienda rapido:
+              hombre, mujer y prendas performance.
+            </p>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-3">
+            {categories.map((category) => (
+              <article
+                key={category.name}
+                className="group overflow-hidden rounded border border-black/10 bg-[#f4f1ec]"
+              >
+                <div className="relative aspect-[4/5] overflow-hidden bg-[#e8e4dc]">
+                  <Image
+                    src={category.image}
+                    alt={`Linea ${category.name} MUNIN`}
+                    fill
+                    sizes="(min-width: 768px) 33vw, 100vw"
+                    className="object-cover transition duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <div className="p-5">
+                  <h3 className="text-xl font-black">{category.name}</h3>
+                  <p className="mt-2 text-sm leading-6 text-[#5b5b5b]">
+                    {category.description}
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="productos" className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
+        <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+          <div>
+            <p className="text-sm font-black uppercase text-[#c7252f]">
+              Catalogo
+            </p>
+            <h2 className="mt-2 text-3xl font-black sm:text-5xl">
+              Productos destacados
+            </h2>
+          </div>
           <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#"
+            className="w-fit rounded border border-black/20 px-5 py-3 text-sm font-black uppercase transition hover:border-[#c7252f] hover:text-[#c7252f]"
           >
-            Documentation
+            Ver todo
           </a>
         </div>
-      </main>
-    </div>
+
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {products.map((product) => (
+            <article
+              key={product.name}
+              className="group rounded border border-black/10 bg-white p-3"
+            >
+              <div className="relative aspect-square overflow-hidden rounded bg-[#e8e4dc]">
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  fill
+                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                  className="object-cover transition duration-500 group-hover:scale-105"
+                />
+              </div>
+              <div className="flex items-start justify-between gap-3 px-1 py-4">
+                <div>
+                  <p className="text-xs font-black uppercase text-[#c7252f]">
+                    {product.color}
+                  </p>
+                  <h3 className="mt-1 font-black">{product.name}</h3>
+                </div>
+                <p className="shrink-0 font-black">{product.price}</p>
+              </div>
+              <button className="h-11 w-full rounded bg-[#111111] text-sm font-black uppercase text-white transition hover:bg-[#c7252f]">
+                Agregar
+              </button>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section
+        id="lookbook"
+        className="bg-[#111111] px-5 py-16 text-white sm:px-8"
+      >
+        <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+          <div>
+            <p className="text-sm font-black uppercase text-[#ff565f]">
+              Lookbook
+            </p>
+            <h2 className="mt-3 text-3xl font-black sm:text-5xl">
+              La prenda se ve fuerte en movimiento.
+            </h2>
+            <p className="mt-5 max-w-md text-sm leading-6 text-white/70">
+              Esta seccion muestra como se comporta la marca en fotos de
+              campana: contraste alto, gimnasio oscuro y rojo como acento.
+            </p>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="relative aspect-[3/4] overflow-hidden rounded bg-black">
+              <Image
+                src="/munin/women-red-front.jpeg"
+                alt="Vista frontal conjunto rojo MUNIN"
+                fill
+                sizes="(min-width: 640px) 50vw, 100vw"
+                className="object-cover"
+              />
+            </div>
+            <div className="relative aspect-[3/4] overflow-hidden rounded bg-black">
+              <Image
+                src="/munin/women-red-back.jpeg"
+                alt="Vista posterior conjunto rojo MUNIN"
+                fill
+                sizes="(min-width: 640px) 50vw, 100vw"
+                className="object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }
