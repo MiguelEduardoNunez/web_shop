@@ -1,4 +1,9 @@
+ "use client";
+
 import Image from "next/image";
+import { useMemo, useState } from "react";
+
+const WHATSAPP_PHONE = "573217589300";
 
 const categories = [
   {
@@ -20,44 +25,118 @@ const categories = [
 
 const products = [
   {
+    id: "shirt-blue",
     name: "Camiseta Azul Storm",
     color: "Azul acero",
-    price: "$89.000",
+    price: 89000,
     image: "/munin/shirt-blue.jpeg",
   },
   {
+    id: "shirt-teal",
     name: "Camiseta Teal Pro",
     color: "Verde profundo",
-    price: "$89.000",
+    price: 89000,
     image: "/munin/shirt-teal.jpeg",
   },
   {
+    id: "shirt-mint",
     name: "Camiseta Mint Flex",
     color: "Menta claro",
-    price: "$89.000",
+    price: 89000,
     image: "/munin/shirt-mint.jpeg",
   },
   {
+    id: "shirt-rust",
     name: "Camiseta Rust Core",
     color: "Terracota",
-    price: "$89.000",
+    price: 89000,
     image: "/munin/shirt-rust.jpeg",
   },
   {
+    id: "shirt-gray",
     name: "Camiseta Graphite",
     color: "Gris grafito",
-    price: "$89.000",
+    price: 89000,
     image: "/munin/shirt-gray.jpeg",
   },
   {
+    id: "set-red-limits",
     name: "Set Red Limits",
     color: "Rojo intenso",
-    price: "$149.000",
+    price: 149000,
     image: "/munin/women-red-front.jpeg",
   },
 ];
 
+const formatPrice = (price: number) =>
+  new Intl.NumberFormat("es-CO", {
+    style: "currency",
+    currency: "COP",
+    maximumFractionDigits: 0,
+  }).format(price);
+
 export default function Home() {
+  const [cart, setCart] = useState<Record<string, number>>({});
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const cartItems = useMemo(
+    () =>
+      products
+        .filter((product) => cart[product.id])
+        .map((product) => ({
+          ...product,
+          quantity: cart[product.id],
+        })),
+    [cart],
+  );
+
+  const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+  const subtotal = cartItems.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0,
+  );
+
+  const orderMessage = useMemo(() => {
+    const lines = cartItems
+      .map(
+        (item) =>
+          `- ${item.quantity} x ${item.name} (${item.color}) - ${formatPrice(
+            item.price * item.quantity,
+          )}`,
+      )
+      .join("\n");
+
+    return `Hola MUNIN, quiero completar este pedido:\n\n${lines}\n\nTotal: ${formatPrice(
+      subtotal,
+    )}\n\nQuedo pendiente para confirmar talla, disponibilidad y entrega.`;
+  }, [cartItems, subtotal]);
+
+  const whatsappHref = WHATSAPP_PHONE
+    ? `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(orderMessage)}`
+    : `https://wa.me/?text=${encodeURIComponent(orderMessage)}`;
+
+  const addToCart = (productId: string) => {
+    setCart((currentCart) => ({
+      ...currentCart,
+      [productId]: (currentCart[productId] ?? 0) + 1,
+    }));
+    setIsCartOpen(true);
+  };
+
+  const updateQuantity = (productId: string, quantity: number) => {
+    setCart((currentCart) => {
+      const nextCart = { ...currentCart };
+
+      if (quantity <= 0) {
+        delete nextCart[productId];
+      } else {
+        nextCart[productId] = quantity;
+      }
+
+      return nextCart;
+    });
+  };
+
   return (
     <main className="min-h-screen bg-[#f4f1ec] text-[#111111]">
       <header className="sticky top-0 z-30 border-b border-black/10 bg-[#f4f1ec]/95 backdrop-blur">
@@ -73,7 +152,7 @@ export default function Home() {
                 priority
               />
             </span>
-            <span className="text-xl font-black tracking-wide">MUNIN</span>
+            <span className="text-xl font-black">MUNIN</span>
           </a>
 
           <div className="hidden items-center gap-8 text-sm font-bold uppercase md:flex">
@@ -88,12 +167,21 @@ export default function Home() {
             </a>
           </div>
 
-          <a
-            href="#productos"
-            className="flex h-11 items-center justify-center rounded bg-[#111111] px-5 text-sm font-black uppercase text-white transition hover:bg-[#c7252f]"
-          >
-            Comprar
-          </a>
+          <div className="flex items-center gap-2">
+            <a
+              href="#productos"
+              className="hidden h-11 items-center justify-center rounded border border-black/20 px-5 text-sm font-black uppercase transition hover:border-[#c7252f] hover:text-[#c7252f] sm:flex"
+            >
+              Comprar
+            </a>
+            <button
+              type="button"
+              onClick={() => setIsCartOpen(true)}
+              className="flex h-11 items-center justify-center rounded bg-[#111111] px-5 text-sm font-black uppercase text-white transition hover:bg-[#c7252f]"
+            >
+              Carrito ({cartCount})
+            </button>
+          </div>
         </nav>
       </header>
 
@@ -137,7 +225,7 @@ export default function Home() {
             />
             <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between rounded bg-white/90 p-4 text-sm font-black uppercase backdrop-blur">
               <span>Red Limits</span>
-              <span>$149.000</span>
+              <span>{formatPrice(149000)}</span>
             </div>
           </div>
 
@@ -260,9 +348,15 @@ export default function Home() {
                   </p>
                   <h3 className="mt-1 font-black">{product.name}</h3>
                 </div>
-                <p className="shrink-0 font-black">{product.price}</p>
+                <p className="shrink-0 font-black">
+                  {formatPrice(product.price)}
+                </p>
               </div>
-              <button className="h-11 w-full rounded bg-[#111111] text-sm font-black uppercase text-white transition hover:bg-[#c7252f]">
+              <button
+                type="button"
+                onClick={() => addToCart(product.id)}
+                className="h-11 w-full rounded bg-[#111111] text-sm font-black uppercase text-white transition hover:bg-[#c7252f]"
+              >
                 Agregar
               </button>
             </article>
@@ -309,6 +403,144 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {isCartOpen && (
+        <div className="fixed inset-0 z-50 bg-black/55">
+          <button
+            type="button"
+            aria-label="Cerrar carrito"
+            className="absolute inset-0 h-full w-full cursor-default"
+            onClick={() => setIsCartOpen(false)}
+          />
+          <aside className="absolute bottom-0 right-0 top-0 flex w-full max-w-md flex-col bg-[#f4f1ec] shadow-2xl sm:border-l sm:border-black/10">
+            <div className="flex items-center justify-between border-b border-black/10 p-5">
+              <div>
+                <p className="text-xs font-black uppercase text-[#c7252f]">
+                  Pedido MUNIN
+                </p>
+                <h2 className="text-2xl font-black">Carrito</h2>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsCartOpen(false)}
+                className="flex h-10 w-10 items-center justify-center rounded bg-[#111111] text-lg font-black text-white transition hover:bg-[#c7252f]"
+                aria-label="Cerrar carrito"
+              >
+                X
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto p-5">
+              {cartItems.length === 0 ? (
+                <div className="flex h-full flex-col items-center justify-center rounded border border-black/10 bg-white p-8 text-center">
+                  <p className="text-xl font-black">Tu carrito esta vacio</p>
+                  <p className="mt-2 text-sm leading-6 text-[#5b5b5b]">
+                    Agrega productos del catalogo para armar el pedido por
+                    WhatsApp.
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {cartItems.map((item) => (
+                    <article
+                      key={item.id}
+                      className="grid grid-cols-[84px_1fr] gap-3 rounded border border-black/10 bg-white p-3"
+                    >
+                      <div className="relative aspect-square overflow-hidden rounded bg-[#e8e4dc]">
+                        <Image
+                          src={item.image}
+                          alt={item.name}
+                          fill
+                          sizes="84px"
+                          className="object-cover"
+                        />
+                      </div>
+                      <div className="min-w-0">
+                        <div className="flex items-start justify-between gap-3">
+                          <div>
+                            <p className="text-xs font-black uppercase text-[#c7252f]">
+                              {item.color}
+                            </p>
+                            <h3 className="font-black">{item.name}</h3>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => updateQuantity(item.id, 0)}
+                            className="text-xs font-black uppercase text-[#5b5b5b] hover:text-[#c7252f]"
+                          >
+                            Quitar
+                          </button>
+                        </div>
+                        <div className="mt-4 flex items-center justify-between gap-3">
+                          <div className="flex h-10 overflow-hidden rounded border border-black/15 bg-[#f4f1ec]">
+                            <button
+                              type="button"
+                              onClick={() =>
+                                updateQuantity(item.id, item.quantity - 1)
+                              }
+                              className="flex w-10 items-center justify-center font-black transition hover:bg-white"
+                              aria-label={`Restar ${item.name}`}
+                            >
+                              -
+                            </button>
+                            <span className="flex w-10 items-center justify-center text-sm font-black">
+                              {item.quantity}
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() =>
+                                updateQuantity(item.id, item.quantity + 1)
+                              }
+                              className="flex w-10 items-center justify-center font-black transition hover:bg-white"
+                              aria-label={`Sumar ${item.name}`}
+                            >
+                              +
+                            </button>
+                          </div>
+                          <p className="font-black">
+                            {formatPrice(item.price * item.quantity)}
+                          </p>
+                        </div>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className="border-t border-black/10 bg-white p-5">
+              <div className="mb-4 flex items-center justify-between text-lg font-black">
+                <span>Subtotal</span>
+                <span>{formatPrice(subtotal)}</span>
+              </div>
+              <div className="grid gap-2">
+                <a
+                  href={cartItems.length ? whatsappHref : undefined}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-disabled={!cartItems.length}
+                  className={`flex h-12 items-center justify-center rounded text-sm font-black uppercase text-white transition ${
+                    cartItems.length
+                      ? "bg-[#25d366] hover:bg-[#1fb457]"
+                      : "pointer-events-none bg-[#9c9c9c]"
+                  }`}
+                >
+                  Pedir por WhatsApp
+                </a>
+                {cartItems.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setCart({})}
+                    className="h-11 rounded border border-black/20 text-sm font-black uppercase transition hover:border-[#c7252f] hover:text-[#c7252f]"
+                  >
+                    Vaciar carrito
+                  </button>
+                )}
+              </div>
+            </div>
+          </aside>
+        </div>
+      )}
     </main>
   );
 }
