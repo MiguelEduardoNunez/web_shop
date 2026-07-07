@@ -120,7 +120,6 @@ export default function Home() {
       ...currentCart,
       [productId]: (currentCart[productId] ?? 0) + 1,
     }));
-    setIsCartOpen(true);
   };
 
   const updateQuantity = (productId: string, quantity: number) => {
@@ -142,13 +141,13 @@ export default function Home() {
       <header className="sticky top-0 z-30 border-b border-black/10 bg-[#f4f1ec]/95 backdrop-blur">
         <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8">
           <a href="#" className="flex items-center gap-3">
-            <span className="relative h-12 w-20 overflow-hidden rounded bg-white">
+            <span className="relative h-14 w-28 overflow-hidden">
               <Image
-                src="/munin/logo.jpeg"
+                src="/munin/logo-transparent.png"
                 alt="Logo MUNIN"
                 fill
                 sizes="80px"
-                className="object-contain p-1"
+                className="object-contain"
                 priority
               />
             </span>
@@ -242,11 +241,11 @@ export default function Home() {
             </div>
             <div className="flex min-h-[252px] flex-col justify-between rounded bg-[#111111] p-6 text-white">
               <Image
-                src="/munin/logo.jpeg"
+                src="/munin/logo-transparent.png"
                 alt="Logo MUNIN"
                 width={180}
                 height={120}
-                className="w-36 rounded bg-white p-2"
+                className="w-36 invert"
               />
               <div>
                 <p className="text-sm font-black uppercase text-[#ff565f]">
