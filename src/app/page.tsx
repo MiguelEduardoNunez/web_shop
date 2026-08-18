@@ -5,6 +5,23 @@ import { useMemo, useState } from "react";
 
 const WHATSAPP_PHONE = "573217589300";
 
+const socialLinks = [
+  {
+    name: "Instagram",
+    href: "https://www.instagram.com/munin_colombia?igsh=d3J4YXpyM2NtdDJ3&igsi=d3J4YXpyM2NtdDJ3",
+  },
+  {
+    name: "Facebook",
+    href: "https://www.facebook.com/profile.php?id=61588604126137",
+  },
+  {
+    name: "TikTok",
+    href: "https://www.tiktok.com/@munin_sport?_r=1&_t=ZS-98wJ0ARTPuM",
+  },
+];
+
+const productFilters = ["Todos", "Camisas", "Busos", "Sacos", "Shorts"];
+
 const categories = [
   {
     name: "Hombre",
@@ -27,6 +44,7 @@ const products = [
   {
     id: "shirt-blue",
     name: "Camiseta Azul Storm",
+    category: "Camisas",
     color: "Azul acero",
     price: 89000,
     image: "/munin/shirt-blue.jpeg",
@@ -34,6 +52,7 @@ const products = [
   {
     id: "shirt-teal",
     name: "Camiseta Teal Pro",
+    category: "Camisas",
     color: "Verde profundo",
     price: 89000,
     image: "/munin/shirt-teal.jpeg",
@@ -41,6 +60,7 @@ const products = [
   {
     id: "shirt-mint",
     name: "Camiseta Mint Flex",
+    category: "Camisas",
     color: "Menta claro",
     price: 89000,
     image: "/munin/shirt-mint.jpeg",
@@ -48,6 +68,7 @@ const products = [
   {
     id: "shirt-rust",
     name: "Camiseta Rust Core",
+    category: "Camisas",
     color: "Terracota",
     price: 89000,
     image: "/munin/shirt-rust.jpeg",
@@ -55,6 +76,7 @@ const products = [
   {
     id: "shirt-gray",
     name: "Camiseta Graphite",
+    category: "Camisas",
     color: "Gris grafito",
     price: 89000,
     image: "/munin/shirt-gray.jpeg",
@@ -62,6 +84,7 @@ const products = [
   {
     id: "set-red-limits",
     name: "Set Red Limits",
+    category: "Shorts",
     color: "Rojo intenso",
     price: 149000,
     image: "/munin/women-red-front.jpeg",
@@ -75,9 +98,74 @@ const formatPrice = (price: number) =>
     maximumFractionDigits: 0,
   }).format(price);
 
+function CartIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      className="h-5 w-5"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+    >
+      <circle cx="8" cy="21" r="1" />
+      <circle cx="19" cy="21" r="1" />
+      <path d="M2.5 3h2l2.6 12.4a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 2-1.6L20.5 8H6" />
+    </svg>
+  );
+}
+
+function SocialIcon({ name }: { name: string }) {
+  if (name === "Instagram") {
+    return (
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 24 24"
+        className="h-5 w-5"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+      >
+        <rect x="3" y="3" width="18" height="18" rx="5" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" />
+      </svg>
+    );
+  }
+
+  if (name === "Facebook") {
+    return (
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 24 24"
+        className="h-5 w-5"
+        fill="currentColor"
+      >
+        <path d="M14.2 8.5V6.9c0-.8.5-1 1-1h1.6V3.1A20 20 0 0 0 14.4 3c-2.4 0-4 1.5-4 4.1v1.4H7.8v3.2h2.6V21h3.4v-9.3h2.7l.5-3.2h-3Z" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      className="h-5 w-5"
+      fill="currentColor"
+    >
+      <path d="M15.7 3c.3 2.3 1.7 3.7 4 3.9v3.2a7.1 7.1 0 0 1-4-1.1v5.8c0 3.8-2.3 6.2-5.8 6.2A5.8 5.8 0 0 1 4 15.2c0-3.5 2.8-6.1 6.5-5.8v3.3c-1.7-.3-3 .7-3 2.4 0 1.5 1 2.5 2.4 2.5 1.6 0 2.5-1 2.5-3.1V3h3.3Z" />
+    </svg>
+  );
+}
+
 export default function Home() {
   const [cart, setCart] = useState<Record<string, number>>({});
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState("Todos");
 
   const cartItems = useMemo(
     () =>
@@ -94,6 +182,13 @@ export default function Home() {
   const subtotal = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
     0,
+  );
+  const filteredProducts = useMemo(
+    () =>
+      selectedFilter === "Todos"
+        ? products
+        : products.filter((product) => product.category === selectedFilter),
+    [selectedFilter],
   );
 
   const orderMessage = useMemo(() => {
@@ -164,6 +259,9 @@ export default function Home() {
             <a href="#lookbook" className="transition hover:text-[#c7252f]">
               Lookbook
             </a>
+            <a href="#redes" className="transition hover:text-[#c7252f]">
+              Redes
+            </a>
           </div>
 
           <div className="flex items-center gap-2">
@@ -176,9 +274,15 @@ export default function Home() {
             <button
               type="button"
               onClick={() => setIsCartOpen(true)}
-              className="flex h-11 items-center justify-center rounded bg-[#111111] px-5 text-sm font-black uppercase text-white transition hover:bg-[#c7252f]"
+              className="relative flex h-11 w-11 items-center justify-center rounded bg-[#111111] text-white transition hover:bg-[#c7252f]"
+              aria-label={`Abrir carrito con ${cartCount} productos`}
             >
-              Carrito ({cartCount})
+              <CartIcon />
+              {cartCount > 0 && (
+                <span className="absolute -right-2 -top-2 flex h-6 min-w-6 items-center justify-center rounded-full bg-[#c7252f] px-1 text-xs font-black text-white">
+                  {cartCount}
+                </span>
+              )}
             </button>
           </div>
         </nav>
@@ -209,6 +313,24 @@ export default function Home() {
             >
               Explorar linea
             </a>
+          </div>
+          <div className="mt-8 flex flex-wrap items-center gap-2">
+            <span className="mr-1 text-xs font-black uppercase text-[#5b5b5b]">
+              Siguenos
+            </span>
+            {socialLinks.map((link) => (
+              <a
+                key={link.name}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Abrir ${link.name} de MUNIN`}
+                title={link.name}
+                className="flex h-10 w-10 items-center justify-center rounded border border-black/15 bg-white transition hover:border-[#c7252f] hover:text-[#c7252f]"
+              >
+                <SocialIcon name={link.name} />
+              </a>
+            ))}
           </div>
         </div>
 
@@ -318,15 +440,33 @@ export default function Home() {
             </h2>
           </div>
           <a
-            href="#"
+            href="#productos"
+            onClick={() => setSelectedFilter("Todos")}
             className="w-fit rounded border border-black/20 px-5 py-3 text-sm font-black uppercase transition hover:border-[#c7252f] hover:text-[#c7252f]"
           >
             Ver todo
           </a>
         </div>
 
+        <div className="mb-8 flex flex-wrap gap-2">
+          {productFilters.map((filter) => (
+            <button
+              key={filter}
+              type="button"
+              onClick={() => setSelectedFilter(filter)}
+              className={`h-11 rounded border px-5 text-sm font-black uppercase transition ${
+                selectedFilter === filter
+                  ? "border-[#111111] bg-[#111111] text-white"
+                  : "border-black/15 bg-white text-[#111111] hover:border-[#c7252f] hover:text-[#c7252f]"
+              }`}
+            >
+              {filter}
+            </button>
+          ))}
+        </div>
+
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {products.map((product) => (
+          {filteredProducts.map((product) => (
             <article
               key={product.name}
               className="group rounded border border-black/10 bg-white p-3"
@@ -343,7 +483,7 @@ export default function Home() {
               <div className="flex items-start justify-between gap-3 px-1 py-4">
                 <div>
                   <p className="text-xs font-black uppercase text-[#c7252f]">
-                    {product.color}
+                    {product.category} / {product.color}
                   </p>
                   <h3 className="mt-1 font-black">{product.name}</h3>
                 </div>
@@ -361,6 +501,18 @@ export default function Home() {
             </article>
           ))}
         </div>
+
+        {filteredProducts.length === 0 && (
+          <div className="rounded border border-black/10 bg-white p-8 text-center">
+            <p className="text-xl font-black">
+              Muy pronto tendremos {selectedFilter.toLowerCase()}.
+            </p>
+            <p className="mt-2 text-sm leading-6 text-[#5b5b5b]">
+              Por ahora puedes revisar camisas y shorts disponibles en el
+              catalogo MUNIN.
+            </p>
+          </div>
+        )}
       </section>
 
       <section
@@ -402,6 +554,32 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <footer id="redes" className="bg-white px-5 py-10 sm:px-8">
+        <div className="mx-auto flex max-w-7xl flex-col justify-between gap-5 sm:flex-row sm:items-center">
+          <div>
+            <p className="text-sm font-black uppercase text-[#c7252f]">
+              Redes sociales
+            </p>
+            <p className="mt-1 text-2xl font-black">Conecta con MUNIN</p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {socialLinks.map((link) => (
+              <a
+                key={link.name}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Abrir ${link.name} de MUNIN`}
+                title={link.name}
+                className="flex h-12 w-12 items-center justify-center rounded bg-[#111111] text-white transition hover:bg-[#c7252f]"
+              >
+                <SocialIcon name={link.name} />
+              </a>
+            ))}
+          </div>
+        </div>
+      </footer>
 
       {isCartOpen && (
         <div className="fixed inset-0 z-50 bg-black/55">
