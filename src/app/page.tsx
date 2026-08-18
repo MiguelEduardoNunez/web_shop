@@ -107,9 +107,9 @@ const products = [
   },
   {
     id: "short-red",
-    name: "Short Sculpt Rojo",
+    name: "Short Sculpt Salmon",
     category: "Shorts",
-    color: "Rojo vino",
+    color: "Salmon",
     price: 22000,
     image: "/munin/short-red.jpeg",
   },
