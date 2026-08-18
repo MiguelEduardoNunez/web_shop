@@ -89,6 +89,38 @@ const products = [
     price: 149000,
     image: "/munin/women-red-front.jpeg",
   },
+  {
+    id: "short-blue-solid",
+    name: "Short Sculpt Azul",
+    category: "Shorts",
+    color: "Azul marino",
+    price: 22000,
+    image: "/munin/short-blue-solid.jpeg",
+  },
+  {
+    id: "short-blue-texture",
+    name: "Short Sculpt Jaspe",
+    category: "Shorts",
+    color: "Azul jaspeado",
+    price: 22000,
+    image: "/munin/short-blue-texture.jpeg",
+  },
+  {
+    id: "short-red",
+    name: "Short Sculpt Rojo",
+    category: "Shorts",
+    color: "Rojo vino",
+    price: 22000,
+    image: "/munin/short-red.jpeg",
+  },
+  {
+    id: "short-purple",
+    name: "Short Sculpt Morado",
+    category: "Shorts",
+    color: "Morado profundo",
+    price: 22000,
+    image: "/munin/short-purple.jpeg",
+  },
 ];
 
 const formatPrice = (price: number) =>
@@ -429,6 +461,72 @@ export default function Home() {
         </div>
       </section>
 
+      <section
+        id="lookbook"
+        className="bg-[#111111] px-5 py-16 text-white sm:px-8"
+      >
+        <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+          <div>
+            <p className="text-sm font-black uppercase text-[#ff565f]">
+              Lookbook
+            </p>
+            <h2 className="mt-3 text-3xl font-black sm:text-5xl">
+              La prenda se ve fuerte en movimiento.
+            </h2>
+            <p className="mt-5 max-w-md text-sm leading-6 text-white/70">
+              Esta seccion muestra como se comporta la marca en fotos de
+              campana: contraste alto, gimnasio oscuro y rojo como acento.
+            </p>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="relative aspect-[3/4] overflow-hidden rounded bg-black">
+              <Image
+                src="/munin/women-red-front.jpeg"
+                alt="Vista frontal conjunto rojo MUNIN"
+                fill
+                sizes="(min-width: 640px) 50vw, 100vw"
+                className="object-cover"
+              />
+            </div>
+            <div className="relative aspect-[3/4] overflow-hidden rounded bg-black">
+              <Image
+                src="/munin/women-red-back.jpeg"
+                alt="Vista posterior conjunto rojo MUNIN"
+                fill
+                sizes="(min-width: 640px) 50vw, 100vw"
+                className="object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer id="redes" className="bg-white px-5 py-10 sm:px-8">
+        <div className="mx-auto flex max-w-7xl flex-col justify-between gap-5 sm:flex-row sm:items-center">
+          <div>
+            <p className="text-sm font-black uppercase text-[#c7252f]">
+              Redes sociales
+            </p>
+            <p className="mt-1 text-2xl font-black">Conecta con MUNIN</p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {socialLinks.map((link) => (
+              <a
+                key={link.name}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Abrir ${link.name} de MUNIN`}
+                title={link.name}
+                className="flex h-12 w-12 items-center justify-center rounded bg-[#111111] text-white transition hover:bg-[#c7252f]"
+              >
+                <SocialIcon name={link.name} />
+              </a>
+            ))}
+          </div>
+        </div>
+      </footer>
+
       <section id="productos" className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
         <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div>
@@ -514,72 +612,6 @@ export default function Home() {
           </div>
         )}
       </section>
-
-      <section
-        id="lookbook"
-        className="bg-[#111111] px-5 py-16 text-white sm:px-8"
-      >
-        <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
-          <div>
-            <p className="text-sm font-black uppercase text-[#ff565f]">
-              Lookbook
-            </p>
-            <h2 className="mt-3 text-3xl font-black sm:text-5xl">
-              La prenda se ve fuerte en movimiento.
-            </h2>
-            <p className="mt-5 max-w-md text-sm leading-6 text-white/70">
-              Esta seccion muestra como se comporta la marca en fotos de
-              campana: contraste alto, gimnasio oscuro y rojo como acento.
-            </p>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="relative aspect-[3/4] overflow-hidden rounded bg-black">
-              <Image
-                src="/munin/women-red-front.jpeg"
-                alt="Vista frontal conjunto rojo MUNIN"
-                fill
-                sizes="(min-width: 640px) 50vw, 100vw"
-                className="object-cover"
-              />
-            </div>
-            <div className="relative aspect-[3/4] overflow-hidden rounded bg-black">
-              <Image
-                src="/munin/women-red-back.jpeg"
-                alt="Vista posterior conjunto rojo MUNIN"
-                fill
-                sizes="(min-width: 640px) 50vw, 100vw"
-                className="object-cover"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <footer id="redes" className="bg-white px-5 py-10 sm:px-8">
-        <div className="mx-auto flex max-w-7xl flex-col justify-between gap-5 sm:flex-row sm:items-center">
-          <div>
-            <p className="text-sm font-black uppercase text-[#c7252f]">
-              Redes sociales
-            </p>
-            <p className="mt-1 text-2xl font-black">Conecta con MUNIN</p>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {socialLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`Abrir ${link.name} de MUNIN`}
-                title={link.name}
-                className="flex h-12 w-12 items-center justify-center rounded bg-[#111111] text-white transition hover:bg-[#c7252f]"
-              >
-                <SocialIcon name={link.name} />
-              </a>
-            ))}
-          </div>
-        </div>
-      </footer>
 
       {isCartOpen && (
         <div className="fixed inset-0 z-50 bg-black/55">
